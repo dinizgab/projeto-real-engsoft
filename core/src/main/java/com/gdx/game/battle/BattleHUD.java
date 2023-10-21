@@ -32,6 +32,8 @@ import com.gdx.game.map.MapManager;
 import com.gdx.game.profile.ProfileManager;
 import com.gdx.game.screen.GameScreen;
 import com.gdx.game.status.StatsUpUI;
+import com.gdx.game.status.BattleStatusEvent;
+import com.gdx.game.status.StatusEvent;
 import com.gdx.game.status.StatusObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -324,27 +326,8 @@ public class BattleHUD implements Screen, BattleObserver, ClassObserver, Compone
     }
 
     @Override
-    public void onNotify(int value, StatusObserver.StatusEvent event) {
-        switch (event) {
-            case UPDATED_HP -> {
-                ProfileManager.getInstance().setProperty("currentPlayerHP", battleStatusUI.getHPValue());
-            }
-            case UPDATED_LEVEL -> {
-                ProfileManager.getInstance().setProperty("currentPlayerLevel", battleStatusUI.getLevelValue());
-                createStatsUpUI(battleStatusUI.getNbrLevelUp());
-            }
-            case UPDATED_MP -> {
-                ProfileManager.getInstance().setProperty("currentPlayerMP", battleStatusUI.getMPValue());
-            }
-            case UPDATED_XP -> {
-                ProfileManager.getInstance().setProperty("currentPlayerXP", battleStatusUI.getXPValue());
-            }
-            case LEVELED_UP -> {
-                //notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
-            }
-            default -> {
-            }
-        }
+    public void onNotify(int value, StatusEvent event) {
+        event.changeStatus(battleStatusUI);
     }
 
     @Override

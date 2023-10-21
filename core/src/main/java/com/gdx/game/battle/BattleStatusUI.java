@@ -8,9 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.game.profile.ProfileManager;
-import com.gdx.game.status.LevelTable;
-import com.gdx.game.status.StatusObserver;
-import com.gdx.game.status.StatusSubject;
+import com.gdx.game.status.*;
 
 import static com.gdx.game.manager.ResourceManager.STATUS_UI_SKIN;
 import static com.gdx.game.manager.ResourceManager.STATUS_UI_TEXTURE_ATLAS;
@@ -168,7 +166,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
     public void setLevelValue(int levelValue) {
         this.levelVal = levelValue;
         levelValLabel.setText(String.valueOf(levelVal));
-        notify(levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL);
+        notify(levelVal, new UpdatedLevelStatusEvent());
     }
 
     public int getNbrLevelUp() {
@@ -194,7 +192,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(xpBar, xpVal, xpCurrentMax);
 
-        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
+        notify(xpVal, new UpdatedXPStatusEvent());
     }
 
     public void setXPValue(int xpValue) {
@@ -208,7 +206,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(xpBar, xpVal, xpCurrentMax);
 
-        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
+        notify(xpVal, new UpdatedXPStatusEvent());
     }
 
     public void setXPValueMax(int maxXPValue) {
@@ -248,7 +246,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
                 setNbrLevelUp(Integer.parseInt(table.getLevelID()) - levelVal);
                 setLevelValue(Integer.parseInt(table.getLevelID()));
-                notify(levelVal, StatusObserver.StatusEvent.LEVELED_UP);
+                notify(levelVal, new UpdatedLevelStatusEvent());
                 return;
             }
             if (levelVal <= Integer.parseInt(table.getLevelID())) {
@@ -272,7 +270,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(hpBar, hpVal, hpCurrentMax);
 
-        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+        notify(hpVal, new UpdatedHPStatusEvent());
     }
 
     public void addHPValue(int hpValue) {
@@ -281,7 +279,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(hpBar, hpVal, hpCurrentMax);
 
-        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+        notify(hpVal, new UpdatedHPStatusEvent());
     }
 
     public void setHPValue(int hpValue) {
@@ -290,7 +288,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(hpBar, hpVal, hpCurrentMax);
 
-        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+        notify(hpVal, new UpdatedHPStatusEvent());
     }
 
     public void setHPValueMax(int maxHPValue) {
@@ -313,7 +311,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(mpBar, mpVal, mpCurrentMax);
 
-        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+        notify(mpVal, new UpdatedMPStatusEvent());
     }
 
     public void addMPValue(int mpValue) {
@@ -322,7 +320,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(mpBar, mpVal, mpCurrentMax);
 
-        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+        notify(mpVal, new UpdatedMPStatusEvent());
     }
 
     public void setMPValue(int mpValue) {
@@ -331,7 +329,7 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
         updateBar(mpBar, mpVal, mpCurrentMax);
 
-        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+        notify(mpVal, new UpdatedMPStatusEvent());
     }
 
     public void setMPValueMax(int maxMPValue) {
@@ -368,9 +366,14 @@ public class BattleStatusUI extends Window implements StatusSubject {
     }
 
     @Override
-    public void notify(int value, StatusObserver.StatusEvent event) {
+    public void notify(int value, StatusEvent event) {
         for(StatusObserver observer: observers) {
             observer.onNotify(value, event);
         }
+    }
+
+    @Override
+    public int getGoldValue() {
+        return 0;
     }
 }

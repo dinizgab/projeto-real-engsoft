@@ -44,9 +44,7 @@ import com.gdx.game.profile.ProfileManager;
 import com.gdx.game.profile.ProfileObserver;
 import com.gdx.game.quest.QuestGraph;
 import com.gdx.game.quest.QuestUI;
-import com.gdx.game.status.StatsUpUI;
-import com.gdx.game.status.StatusObserver;
-import com.gdx.game.status.StatusUI;
+import com.gdx.game.status.*;
 
 public class PlayerHUD implements Screen, AudioSubject, ProfileObserver, ClassObserver, ComponentObserver, ConversationGraphObserver, BattleObserver, StoreInventoryObserver, InventoryObserver, StatusObserver {
 
@@ -533,33 +531,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver, ClassOb
 
     @Override
     public void onNotify(int value, StatusEvent event) {
-        switch (event) {
-            case UPDATED_GP:
-                storeInventoryUI.setPlayerGP(value);
-                ProfileManager.getInstance().setProperty("currentPlayerGP", statusUI.getGoldValue());
-                break;
-            case UPDATED_HP:
-                ProfileManager.getInstance().setProperty("currentPlayerHP", statusUI.getHPValue());
-                break;
-            case UPDATED_LEVEL:
-                ProfileManager.getInstance().setProperty("currentPlayerLevel", statusUI.getLevelValue());
-                break;
-            case UPDATED_LEVEL_FROM_QUEST:
-                ProfileManager.getInstance().setProperty("currentPlayerLevel", statusUI.getLevelValue());
-                createStatsUpUI(statusUI.getNbrLevelUp());
-                break;
-            case UPDATED_MP:
-                ProfileManager.getInstance().setProperty("currentPlayerMP", statusUI.getMPValue());
-                break;
-            case UPDATED_XP:
-                ProfileManager.getInstance().setProperty("currentPlayerXP", statusUI.getXPValue());
-                break;
-            case LEVELED_UP:
-                //notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
-                break;
-            default:
-                break;
-        }
+        event.changeStatus(statusUI);
     }
 
     @Override

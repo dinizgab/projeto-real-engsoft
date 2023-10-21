@@ -194,9 +194,9 @@ public class StatusUI extends Window implements StatusSubject {
         this.levelVal = levelValue;
         levelValLabel.setText(String.valueOf(levelVal));
         if (isFromQuest) {
-            notify(levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL_FROM_QUEST);
+            notify(levelVal, new UpdatedLevelFromQuest());
         } else {
-            notify(levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL);
+            notify(levelVal, new UpdatedLevelStatusEvent());
         }
     }
 
@@ -215,13 +215,13 @@ public class StatusUI extends Window implements StatusSubject {
     public void setGoldValue(int goldValue) {
         this.goldVal = goldValue;
         goldValLabel.setText(String.valueOf(goldVal));
-        notify(goldVal, StatusObserver.StatusEvent.UPDATED_GP);
+        notify(goldVal, new UpdatedGPStatusEvent());
     }
 
     public void addGoldValue(int goldValue) {
         this.goldVal += goldValue;
         goldValLabel.setText(String.valueOf(goldVal));
-        notify(goldVal, StatusObserver.StatusEvent.UPDATED_GP);
+        notify(goldVal, new UpdatedGPStatusEvent());
     }
 
     public int getXPValue() {
@@ -239,7 +239,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(xpBar, xpVal, xpCurrentMax);
 
-        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
+        notify(xpVal, new UpdatedXPStatusEvent());
     }
 
     public void setXPValue(int xpValue) {
@@ -253,7 +253,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(xpBar, xpVal, xpCurrentMax);
 
-        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
+        notify(xpVal, new UpdatedXPStatusEvent());
     }
 
     public void setXPValueMax(int maxXPValue) {
@@ -293,7 +293,7 @@ public class StatusUI extends Window implements StatusSubject {
 
                 setNbrLevelUp(Integer.parseInt(table.getLevelID()) - levelVal);
                 setLevelValue(Integer.parseInt(table.getLevelID()), isFromQuest);
-                notify(levelVal, StatusObserver.StatusEvent.LEVELED_UP);
+                notify(levelVal, new UpdatedLevelUpStatusEvent());
                 return;
             }
             if (levelVal <= Integer.parseInt(table.getLevelID())) {
@@ -317,7 +317,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(hpBar, hpVal, hpCurrentMax);
 
-        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+        notify(hpVal, new UpdatedHPStatusEvent());
     }
 
     public void addHPValue(int hpValue) {
@@ -326,7 +326,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(hpBar, hpVal, hpCurrentMax);
 
-        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+        notify(hpVal, new UpdatedHPStatusEvent());
     }
 
     public void setHPValue(int hpValue) {
@@ -335,7 +335,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(hpBar, hpVal, hpCurrentMax);
 
-        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+        notify(hpVal, new UpdatedHPStatusEvent());
     }
 
     public void setHPValueMax(int maxHPValue) {
@@ -358,7 +358,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(mpBar, mpVal, mpCurrentMax);
 
-        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+        notify(mpVal, new UpdatedMPStatusEvent());
     }
 
     public void addMPValue(int mpValue) {
@@ -367,7 +367,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(mpBar, mpVal, mpCurrentMax);
 
-        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+        notify(mpVal, new UpdatedMPStatusEvent());
     }
 
     public void setMPValue(int mpValue) {
@@ -376,7 +376,7 @@ public class StatusUI extends Window implements StatusSubject {
 
         updateBar(mpBar, mpVal, mpCurrentMax);
 
-        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+        notify(mpVal, new UpdatedMPStatusEvent());
     }
 
     public void setMPValueMax(int maxMPValue) {
@@ -413,7 +413,7 @@ public class StatusUI extends Window implements StatusSubject {
     }
 
     @Override
-    public void notify(int value, StatusObserver.StatusEvent event) {
+    public void notify(int value, StatusEvent event) {
         for(StatusObserver observer: observers) {
             observer.onNotify(value, event);
         }
