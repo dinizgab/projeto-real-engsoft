@@ -62,19 +62,32 @@ public class CharacterSelectionScreen extends BaseScreen {
     }
 
     private void handleCharacterImage() {
-        player = playerSprites.get(CharacterRecord.CHARACTERS[currentCharacter].getName());
+
+        final String characterName = CharacterRecord.CHARACTERS[currentCharacter].getName();
+        player = playerSprites.get(characterName);
+
+        final int imageWidth = 16;
+        final int imageHeight = 16;
         playerImage = new AnimatedImage();
-        playerImage.setWidth(16);
-        playerImage.setHeight(16);
+        playerImage.setWidth(imageWidth);
+        playerImage.setHeight(imageHeight);
         playerImage.setEntity(player);
         playerImage.setTouchable(Touchable.disabled);
         playerImage.setCurrentAnimation(Entity.AnimationType.IDLE);
-        playerImage.setSize(playerImage.getWidth() * 3, playerImage.getHeight() * 3);
-        playerImage.setPosition((characterSelectionStage.getWidth() - playerImage.getWidth()) / 2,
-                (characterSelectionStage.getHeight() - playerImage.getHeight()) / 2);
 
-        if (characterSelectionTable.getChildren().size == 7) {
-            characterSelectionTable.removeActorAt(3, false);
+        final int imageMagnifier = 3;
+        final float sizeWidth = playerImage.getWidth() * imageMagnifier;
+        final float sizeHeight = playerImage.getHeight() * imageMagnifier;
+        playerImage.setSize(sizeWidth, sizeHeight);
+
+        final float positionX = (characterSelectionStage.getWidth() - playerImage.getWidth()) / 2;
+        final float positionY = (characterSelectionStage.getHeight() - playerImage.getHeight()) / 2;
+        playerImage.setPosition(positionX, positionY);
+
+        final int childrenLimit = 7;
+        final int childToRemove = 3;
+        if (characterSelectionTable.getChildren().size == childrenLimit) {
+            characterSelectionTable.removeActorAt(childToRemove, false);
         }
         characterSelectionTable.addActor(playerImage);
     }
