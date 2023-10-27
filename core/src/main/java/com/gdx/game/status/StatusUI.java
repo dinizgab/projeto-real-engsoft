@@ -186,8 +186,31 @@ public class StatusUI extends Window implements StatusSubject {
         return questButton;
     }
 
+    @Override
     public int getLevelValue() {
         return levelVal;
+    }
+
+    @Override
+    public int getGoldValue(){
+        return goldVal;
+    }
+
+    @Override
+    public int getXPValue() {
+        return xpVal;
+    }
+
+    @Override
+    //HP
+    public int getHPValue(){
+        return hpVal;
+    }
+
+    @Override
+    //MP
+    public int getMPValue(){
+        return mpVal;
     }
 
     public void setLevelValue(int levelValue, boolean isFromQuest) {
@@ -208,10 +231,6 @@ public class StatusUI extends Window implements StatusSubject {
         this.nbrLevelUp = nbrLevelUp;
     }
 
-    public int getGoldValue() {
-        return goldVal;
-    }
-
     public void setGoldValue(int goldValue) {
         this.goldVal = goldValue;
         goldValLabel.setText(String.valueOf(goldVal));
@@ -222,10 +241,6 @@ public class StatusUI extends Window implements StatusSubject {
         this.goldVal += goldValue;
         goldValLabel.setText(String.valueOf(goldVal));
         notify(goldVal, new UpdatedGPStatusEvent());
-    }
-
-    public int getXPValue() {
-        return xpVal;
     }
 
     public void addXPValue(int xpValue, boolean isFromQuest) {
@@ -306,11 +321,6 @@ public class StatusUI extends Window implements StatusSubject {
         return xpCurrentMax;
     }
 
-    //HP
-    public int getHPValue() {
-        return hpVal;
-    }
-
     public void removeHPValue(int hpValue) {
         hpVal = MathUtils.clamp(hpVal - hpValue, 0, hpCurrentMax);
         hpValLabel.setText(String.valueOf(hpVal));
@@ -345,11 +355,6 @@ public class StatusUI extends Window implements StatusSubject {
 
     public int getHPValueMax() {
         return hpCurrentMax;
-    }
-
-    //MP
-    public int getMPValue() {
-        return mpVal;
     }
 
     public void removeMPValue(int mpValue) {

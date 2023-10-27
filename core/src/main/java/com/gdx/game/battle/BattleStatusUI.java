@@ -159,8 +159,26 @@ public class BattleStatusUI extends Window implements StatusSubject {
         this.add(xpValLabel).align(Align.left).padRight(20);
     }
 
+    @Override
     public int getLevelValue() {
         return levelVal;
+    }
+
+    @Override
+    public int getXPValue() {
+        return xpVal;
+    }
+
+    //HP
+    @Override
+    public int getHPValue() {
+        return hpVal;
+    }
+
+    //MP
+    @Override
+    public int getMPValue() {
+        return mpVal;
     }
 
     public void setLevelValue(int levelValue) {
@@ -175,10 +193,6 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
     public void setNbrLevelUp(int nbrLevelUp) {
         this.nbrLevelUp = nbrLevelUp;
-    }
-
-    public int getXPValue() {
-        return xpVal;
     }
 
     public void addXPValue(int xpValue) {
@@ -259,11 +273,6 @@ public class BattleStatusUI extends Window implements StatusSubject {
         return xpCurrentMax;
     }
 
-    //HP
-    public int getHPValue() {
-        return hpVal;
-    }
-
     public void removeHPValue(int hpValue) {
         hpVal = MathUtils.clamp(hpVal - hpValue, 0, hpCurrentMax);
         hpValLabel.setText(String.valueOf(hpVal));
@@ -298,11 +307,6 @@ public class BattleStatusUI extends Window implements StatusSubject {
 
     public int getHPValueMax() {
         return hpCurrentMax;
-    }
-
-    //MP
-    public int getMPValue() {
-        return mpVal;
     }
 
     public void removeMPValue(int mpValue) {
